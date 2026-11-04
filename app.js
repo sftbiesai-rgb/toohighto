@@ -153,23 +153,20 @@ function demoBackend() {
 // Rendering
 // ---------------------------------------------------------------------------
 
-const HEAT_STOPS = [
-  [0, [0xC2, 0x18, 0x5B]],   // magenta: orbit
-  [0.45, [0xF2, 0x6B, 0x21]], // orange
-  [0.7, [0xF6, 0xB9, 0x3B]],  // gold
-  [1, [0x1F, 0xA5, 0xA0]],    // teal: couch
-];
+// Rank colors run rust (orbit) → ochre → sage → slate (couch), mixed from the
+// CSS tokens so they follow the light/dark palette.
+const HEAT_STOPS = [[0, '--rust'], [0.4, '--ochre'], [0.7, '--sage'], [1, '--slate']];
 
 function heat(t) {
   for (let i = 1; i < HEAT_STOPS.length; i++) {
     const [t1, c1] = HEAT_STOPS[i];
     if (t <= t1) {
       const [t0, c0] = HEAT_STOPS[i - 1];
-      const k = (t - t0) / (t1 - t0);
-      return `rgb(${c0.map((v, j) => Math.round(v + (c1[j] - v) * k)).join(' ')})`;
+      const pct = Math.round((1 - (t - t0) / (t1 - t0)) * 100);
+      return `color-mix(in oklab, var(${c0}) ${pct}%, var(${c1}))`;
     }
   }
-  return 'rgb(31 165 160)';
+  return 'var(--slate)';
 }
 
 function el(tag, attrs = {}, ...children) {
@@ -319,32 +316,10 @@ function toast(msg) {
 }
 
 // ---------------------------------------------------------------------------
-// Starfield (deterministic so it doesn't jump between loads)
-// ---------------------------------------------------------------------------
-
-function stars() {
-  const g = document.getElementById('stars');
-  if (!g) return;
-  let seed = 420;
-  const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
-  const ns = 'http://www.w3.org/2000/svg';
-  for (let i = 0; i < 110; i++) {
-    const c = document.createElementNS(ns, 'circle');
-    c.setAttribute('cx', (rand() * 800).toFixed(1));
-    c.setAttribute('cy', (rand() * 330).toFixed(1));
-    c.setAttribute('r', (rand() < 0.08 ? 1.8 : 0.4 + rand() * 0.9).toFixed(2));
-    c.setAttribute('fill', rand() < 0.15 ? '#F6B93B' : '#F3E6C8');
-    c.setAttribute('opacity', (0.35 + rand() * 0.6).toFixed(2));
-    g.append(c);
-  }
-}
-
-// ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
 
 async function main() {
-  stars();
   $('#top').addEventListener('click', onVote);
   $('#fresh').addEventListener('click', onVote);
   $('#submit-form').addEventListener('submit', onSubmit);
