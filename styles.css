@@ -163,6 +163,7 @@ h2 {
   display: grid;
   grid-template-columns: 132px 1fr;
   gap: 0 14px;
+  min-height: 440px; /* keep the axis readable while loading or with few entries */
 }
 
 .axis { position: relative; min-height: 100%; }
