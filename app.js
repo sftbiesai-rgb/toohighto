@@ -168,8 +168,6 @@ function rung(s, index, kind) {
   const mine = state.votes.get(s.id) || 0;
   const isTop = kind === 'top';
   const li = el('li', { class: `rung${isTop && index === 0 ? ' peak' : ''}`, 'data-id': s.id });
-  // Stencil hull marking, e.g. "TH-01 · PEAK HIGHNESS"
-  const serial = isTop ? `TH-${String(index + 1).padStart(2, '0')}${index === 0 ? ' · PEAK HIGHNESS' : ''}` : 'TH-INBOUND';
 
   const stmt = el('p', { class: 'stmt' }, el('span', { class: 'pre' }, 'Too high to '), s.body);
 
@@ -180,8 +178,7 @@ function rung(s, index, kind) {
     el('button', { type: 'button', class: 'down', 'data-vote': '-1', 'aria-pressed': String(mine === -1), 'aria-label': `Lower: ${label}`, title: 'Lower' }, '▼'),
   );
 
-  li.append(el('span', { class: 'serial', 'aria-hidden': 'true' }, serial));
-  li.append(el('span', { class: 'rank','aria-label': isTop ? `Rank ${index + 1}` : 'New' }, isTop ? `#${index + 1}` : 'NEW'), stmt, vote);
+  li.append(el('span', { class: 'rank','aria-label': isTop ? `Rank ${index + 1}` : 'New' }, isTop ? String(index + 1) : 'NEW'), stmt, vote);
   return li;
 }
 

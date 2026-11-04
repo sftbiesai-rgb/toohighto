@@ -5,65 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Too High To…</title>
   <meta name="description" content="The people's chart of elevated states. Submit your own “Too high to…” and vote. Ranked by highness.">
-  <meta name="theme-color" content="#F2EFE7">
-  <meta name="theme-color" content="#18171E" media="(prefers-color-scheme: dark)">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='6' fill='%23C4472C'/%3E%3Cpath d='M32 10l3 19 19 3-19 3-3 19-3-19-19-3 19-3z' fill='%23F2EFE7'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#BFD3DC">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%239BB86A'/%3E%3Crect x='12' y='38' width='40' height='9' rx='4.5' fill='%23F3EEE3' stroke='%236A5E52' stroke-width='2'/%3E%3Cpath d='M15 39 A17 17 0 0 1 49 39 Z' fill='%239FC3D6' stroke='%236A5E52' stroke-width='2'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&display=swap">
-  <link rel="stylesheet" href="styles.css?v=8">
-  <script type="module" src="app.js?v=8"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,0..100;1,9..144,300..700,0..100&display=swap">
+  <link rel="stylesheet" href="styles.css?v=10">
+  <script type="module" src="app.js?v=10"></script>
 </head>
 <body>
-  <div class="page">
-    <header class="head">
-      <h1 class="title">Too High To…</h1>
-    </header>
+  <svg class="art" id="art" viewBox="0 0 1000 1400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  <script src="art.js?v=10"></script>
 
-    <p class="scale-legend" aria-hidden="true"><b>Highness scale</b> Wicked ↓ Philosophy ↓ Mountain ↓ Tree ↓ Couch</p>
+  <main class="wrap">
+    <header class="title">
+      <h1>Too High To…</h1>
+      <p class="sub">a chart of elevated states, ranked by highness</p>
+    </header>
 
     <p class="demo-note" id="demo-note" hidden>Demo mode: not connected to a database yet. Votes and posts are saved in this browser only.</p>
 
     <section class="chart" aria-label="The Highness Chart">
       <div class="axis" aria-hidden="true">
         <span class="axis-title">Highness</span>
+        <ol class="bands"><li>Wicked</li><li>Philosophy</li><li>Mountain</li><li>Tree</li><li>Couch</li></ol>
         <div class="axis-line"></div>
-        <ol class="bands">
-          <li style="--y: 0%">Wicked</li>
-          <li style="--y: 24%">Philosophy</li>
-          <li style="--y: 48%">Mountain</li>
-          <li style="--y: 72%">Tree</li>
-          <li style="--y: 96%">Couch</li>
-        </ol>
       </div>
-      <div class="plate">
-        <ol class="rungs" id="top" aria-label="Top 10, highest first">
-          <li class="loading">Receiving transmissions…</li>
-        </ol>
-      </div>
+      <ol class="rungs" id="top" aria-label="Top 10, highest first">
+        <li class="loading">Receiving transmissions…</li>
+      </ol>
     </section>
 
-    <section class="block" aria-labelledby="submit-h">
-      <h2 id="submit-h">File Your Own Report</h2>
-      <form id="submit-form" class="submit" autocomplete="off">
-        <label for="entry" class="prefix">Too high to</label>
-        <input id="entry" name="entry" type="text" minlength="3" maxlength="80" required placeholder="parallel park" spellcheck="true">
-        <button type="submit">Launch</button>
-      </form>
-      <p class="hint"><span id="count">0</span>/80 · New reports land in New Arrivals and climb the chart with votes.</p>
-    </section>
+    <h2 id="submit-h">File your own report</h2>
+    <form id="submit-form" class="submit" autocomplete="off" aria-labelledby="submit-h">
+      <label for="entry">Too high to</label>
+      <input id="entry" name="entry" type="text" minlength="3" maxlength="80" required placeholder="parallel park" spellcheck="true">
+      <button type="submit">Launch</button>
+    </form>
+    <p class="hint"><span id="count">0</span>/80 · Vote ▲ if it's a higher state, ▼ if it's not that high. One vote per post per browser.</p>
 
-    <section class="block" aria-labelledby="fresh-h">
-      <h2 id="fresh-h">New Arrivals</h2>
-      <p class="hint lead">Fresh off the launchpad. Vote them up the chart.</p>
-      <ol class="rungs fresh" id="fresh"></ol>
-    </section>
-
-    <footer class="foot">
-      <span>Votes are anonymous: one per statement per browser. Click a vote again to take it back.</span>
-      <span class="pageno">1</span>
-    </footer>
-  </div>
+    <h2 id="fresh-h">New Arrivals</h2>
+    <ol class="rungs fresh" id="fresh" aria-labelledby="fresh-h"></ol>
+  </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
