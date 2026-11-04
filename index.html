@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Too High To…</title>
+  <meta name="description" content="The people's chart of elevated states. Submit your own “Too high to…” and vote. Ranked by highness.">
+  <meta name="theme-color" content="#12062a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='16' fill='%231FA5A0'/%3E%3Cellipse cx='32' cy='32' rx='29' ry='8' fill='none' stroke='%23F26B21' stroke-width='4' transform='rotate(-18 32 32)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Shrikhand&display=swap">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div class="cover">
+    <header class="masthead">
+      <span class="imprint">Toohighto Books</span>
+      <span class="catalog">SF-420</span>
+      <span class="price" aria-label="Price: 95 cents">95¢</span>
+    </header>
+
+    <section class="hero">
+      <svg class="art" viewBox="0 0 800 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="A ringed planet and a striped sun over a violet alien ridge, where a lone astronaut points at the sky">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#0d0624"/>
+            <stop offset=".34" stop-color="#2B1055"/>
+            <stop offset=".6" stop-color="#7a1f6e"/>
+            <stop offset=".78" stop-color="#C2185B"/>
+            <stop offset=".9" stop-color="#F26B21"/>
+            <stop offset="1" stop-color="#F6B93B"/>
+          </linearGradient>
+          <radialGradient id="sunG" cx=".5" cy=".42" r=".6">
+            <stop offset="0" stop-color="#FFF1C9"/>
+            <stop offset=".45" stop-color="#F6B93B"/>
+            <stop offset="1" stop-color="#F26B21"/>
+          </radialGradient>
+          <radialGradient id="planetG" cx=".32" cy=".28" r=".8">
+            <stop offset="0" stop-color="#C9F7EC"/>
+            <stop offset=".3" stop-color="#1FA5A0"/>
+            <stop offset=".7" stop-color="#0E4F5C"/>
+            <stop offset="1" stop-color="#06182a"/>
+          </radialGradient>
+          <linearGradient id="ringG" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#F3E6C8" stop-opacity=".15"/>
+            <stop offset=".3" stop-color="#F6B93B"/>
+            <stop offset=".6" stop-color="#F26B21"/>
+            <stop offset="1" stop-color="#F3E6C8" stop-opacity=".25"/>
+          </linearGradient>
+          <radialGradient id="moonG" cx=".35" cy=".35" r=".7">
+            <stop offset="0" stop-color="#FFF6E2"/>
+            <stop offset="1" stop-color="#d9a98a"/>
+          </radialGradient>
+          <radialGradient id="vignette" cx=".5" cy=".45" r=".75">
+            <stop offset=".6" stop-color="#000" stop-opacity="0"/>
+            <stop offset="1" stop-color="#000" stop-opacity=".55"/>
+          </radialGradient>
+          <clipPath id="planetClip"><circle cx="590" cy="190" r="116"/></clipPath>
+          <!-- Front half of the ring, in the rotated ring's coordinate space -->
+          <clipPath id="ringFront" clipPathUnits="userSpaceOnUse"><rect x="200" y="190" width="800" height="300"/></clipPath>
+          <mask id="sunStripes" maskUnits="userSpaceOnUse">
+            <rect width="800" height="560" fill="#fff"/>
+            <rect x="0" y="372" width="800" height="4" fill="#000"/>
+            <rect x="0" y="392" width="800" height="6" fill="#000"/>
+            <rect x="0" y="412" width="800" height="9" fill="#000"/>
+            <rect x="0" y="433" width="800" height="12" fill="#000"/>
+            <rect x="0" y="456" width="800" height="16" fill="#000"/>
+          </mask>
+          <filter id="grain" x="0" y="0" width="100%" height="100%">
+            <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+          </filter>
+        </defs>
+
+        <rect width="800" height="560" fill="url(#sky)"/>
+        <g id="stars"></g>
+
+        <circle cx="120" cy="118" r="24" fill="url(#moonG)" opacity=".9"/>
+        <circle cx="178" cy="176" r="7" fill="#1FA5A0" opacity=".8"/>
+
+        <circle cx="230" cy="420" r="150" fill="url(#sunG)" mask="url(#sunStripes)"/>
+
+        <g class="planet">
+          <g transform="rotate(-18 590 190)">
+            <ellipse cx="590" cy="190" rx="214" ry="42" fill="none" stroke="url(#ringG)" stroke-width="14" opacity=".85"/>
+          </g>
+          <circle cx="590" cy="190" r="116" fill="url(#planetG)"/>
+          <g clip-path="url(#planetClip)" fill="none" stroke="#F3E6C8" stroke-opacity=".12" stroke-width="10">
+            <ellipse cx="590" cy="150" rx="160" ry="22" transform="rotate(-18 590 190)"/>
+            <ellipse cx="590" cy="215" rx="160" ry="14" transform="rotate(-18 590 190)"/>
+          </g>
+          <g transform="rotate(-18 590 190)">
+            <ellipse cx="590" cy="190" rx="214" ry="42" fill="none" stroke="url(#ringG)" stroke-width="14" clip-path="url(#ringFront)"/>
+          </g>
+        </g>
+
+        <path d="M0 455 L60 440 L120 452 L190 428 L250 448 L330 432 L400 450 L470 422 L540 446 L610 432 L690 452 L760 436 L800 445 L800 560 L0 560Z" fill="#5b1347" opacity=".92"/>
+        <path d="M0 492 Q80 472 150 486 T300 478 L340 470 L378 452 L404 444 L430 456 L470 476 Q560 500 640 482 T800 488 L800 560 L0 560Z" fill="#12062a"/>
+
+        <g class="astronaut" transform="translate(398 412)" fill="#0a0418" stroke="#0a0418" stroke-linecap="round">
+          <rect x="-5" y="12" width="6" height="10" rx="2"/>
+          <rect x="-1" y="11" width="12" height="14" rx="3"/>
+          <circle cx="5" cy="6" r="6.5"/>
+          <ellipse cx="7.5" cy="6" rx="3" ry="2.2" fill="#F6B93B" stroke="none"/>
+          <path d="M2 24 L0 32 M9 24 L11 32" stroke-width="4" fill="none"/>
+          <path d="M10 14 L18 4" stroke-width="3" fill="none"/>
+        </g>
+
+        <rect width="800" height="560" fill="url(#vignette)"/>
+        <rect class="grain" width="800" height="560" filter="url(#grain)"/>
+      </svg>
+
+      <div class="hero-text">
+        <p class="kicker">The people's chart of elevated states</p>
+        <h1 class="title">Too High To…</h1>
+        <p class="tagline">Ranked by <em>highness</em>. The highest high is at the top.</p>
+      </div>
+    </section>
+
+    <main>
+      <p class="demo-note" id="demo-note" hidden>Demo mode: not connected to a database yet. Votes and posts are saved in this browser only.</p>
+
+      <section class="panel" aria-labelledby="chart-h">
+        <div class="section-head">
+          <h2 id="chart-h">The Highness Chart</h2>
+          <p class="how">Vote <b class="hi">▲ Higher</b> if it's a more elevated state, or <b class="lo">▼ Lower</b> if it's not that high. The higher the high, the higher it ranks.</p>
+        </div>
+
+        <div class="chart">
+          <div class="axis" aria-hidden="true">
+            <span class="axis-title">Highness</span>
+            <div class="axis-line"></div>
+            <ol class="bands">
+              <li style="--y: 0%">Orbit</li>
+              <li style="--y: 24%">Stratosphere</li>
+              <li style="--y: 48%">Cloud 9</li>
+              <li style="--y: 72%">Rooftop</li>
+              <li style="--y: 96%">Couch</li>
+            </ol>
+          </div>
+          <ol class="rungs" id="top" aria-label="Top 10, highest first">
+            <li class="loading">Receiving transmissions…</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="submit-h">
+        <h2 id="submit-h">File Your Own Report</h2>
+        <form id="submit-form" class="submit" autocomplete="off">
+          <label for="entry" class="prefix">Too high to</label>
+          <input id="entry" name="entry" type="text" minlength="3" maxlength="80" required placeholder="parallel park" spellcheck="true">
+          <button type="submit">Launch ↑</button>
+        </form>
+        <p class="hint"><span id="count">0</span>/80 · New reports land in New Arrivals and climb the chart with votes.</p>
+      </section>
+
+      <section class="panel" aria-labelledby="fresh-h">
+        <div class="section-head">
+          <h2 id="fresh-h">New Arrivals</h2>
+          <p class="how">Fresh off the launchpad. Vote them up the chart.</p>
+        </div>
+        <ol class="rungs fresh" id="fresh"></ol>
+      </section>
+    </main>
+
+    <footer class="backcover">
+      <p>Somewhere past the ring of the seventh planet, everyone is too high to <em>something</em>. Only the people can decide who is highest.</p>
+      <p class="fine">Votes are anonymous: one per statement per browser. Click a vote again to take it back.</p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
