@@ -101,11 +101,11 @@ async function supabaseBackend() {
 }
 
 const DEMO_SEED = [
-  ['smoke more weed', 30], ['shovel', 27], ['work the microwave', 24], ['finish this sente', 21],
-  ['make eye contact with the cat', 18], ['text back', 15], ['parallel park', 12],
-  ['pick something on Netflix', 9], ['go to Costco', 6], ['do my taxes', 3],
-  ['read the whole menu', 1], ['be on a group call', 0], ['figure out which remote is which', 0],
-];
+  'blow leaves', 'shovel', 'pick up takeout', 'smoke more weed', 'vote', 'watch sports',
+  'give out Halloween candy', 'cook hot dogs', 'leave my closet for fear of seeing my work phone',
+  'be out of the fetal position', 'properly achieve the fetal position',
+  'send a text about the dreams I had when I was high',
+].map((body) => [body, 1]);
 
 function demoBackend() {
   const KEY = 'toohighto:demo';

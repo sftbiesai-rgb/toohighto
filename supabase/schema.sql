@@ -131,24 +131,23 @@ grant  execute on function public.cast_vote(uuid, uuid, integer)   to anon, auth
 grant  execute on function public.my_votes(uuid)                   to anon, authenticated;
 
 -- ---------------------------------------------------------------------------
--- Seed: highest state first.
+-- Seed: every starter at score 1; ties rank oldest first, so list order wins.
 -- ---------------------------------------------------------------------------
 
 insert into public.statements (body, base_score, score, created_at)
-select body, base, base, now() - (age || ' minutes')::interval
+select body, 1, 1, now() - (age || ' minutes')::interval
 from (values
-  ('smoke more weed',                  30, 600),
-  ('shovel',                           27, 590),
-  ('work the microwave',               24, 580),
-  ('finish this sente',                21, 570),
-  ('make eye contact with the cat',    18, 560),
-  ('text back',                        15, 550),
-  ('parallel park',                    12, 540),
-  ('pick something on Netflix',         9, 530),
-  ('go to Costco',                      6, 520),
-  ('do my taxes',                       3, 510),
-  ('read the whole menu',               1, 30),
-  ('be on a group call',                0, 20),
-  ('figure out which remote is which',  0, 10)
-) as seed (body, base, age)
+  ('blow leaves',                                         12),
+  ('shovel',                                              11),
+  ('pick up takeout',                                     10),
+  ('smoke more weed',                                      9),
+  ('vote',                                                 8),
+  ('watch sports',                                         7),
+  ('give out Halloween candy',                             6),
+  ('cook hot dogs',                                        5),
+  ('leave my closet for fear of seeing my work phone',     4),
+  ('be out of the fetal position',                         3),
+  ('properly achieve the fetal position',                  2),
+  ('send a text about the dreams I had when I was high',   1)
+) as seed (body, age)
 on conflict (body_key) do nothing;
