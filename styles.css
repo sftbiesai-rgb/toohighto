@@ -59,21 +59,9 @@ body {
   padding: 28px 32px 40px;
 }
 
-/* ---------- Header: book page caption ---------- */
+/* ---------- Header ---------- */
 
-.folio {
-  display: flex;
-  justify-content: space-between;
-  margin: 0 0 28px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--rule);
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: .72rem;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
+.head { padding: 16px 0 34px; }
 
 .title {
   margin: 0;
@@ -86,19 +74,6 @@ body {
   letter-spacing: -.01em;
   text-transform: uppercase;
 }
-
-.caption {
-  margin: 14px 0 30px;
-  max-width: 62ch;
-  font-family: var(--display);
-  font-size: .98rem;
-  line-height: 1.45;
-  color: var(--ink-soft);
-}
-.caption b { color: var(--ink); font-weight: 700; }
-.caption .hi, .caption .lo { white-space: nowrap; }
-.caption .hi { color: var(--red); }
-.caption .lo { color: var(--slate); }
 
 .scale-legend { display: none; }
 
@@ -427,7 +402,6 @@ h2 {
 
 @media (max-width: 600px) {
   .page { padding: 18px 16px 28px; }
-  .folio { margin-bottom: 20px; font-size: .64rem; }
   .chart { grid-template-columns: 30px 1fr; gap: 0 10px; }
   .bands { display: none; }
   .scale-legend {
