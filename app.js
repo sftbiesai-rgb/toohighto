@@ -153,22 +153,6 @@ function demoBackend() {
 // Rendering
 // ---------------------------------------------------------------------------
 
-// Rank colors run rust (orbit) → ochre → sage → slate (couch), mixed from the
-// CSS tokens so they follow the light/dark palette.
-const HEAT_STOPS = [[0, '--rust'], [0.4, '--ochre'], [0.7, '--sage'], [1, '--slate']];
-
-function heat(t) {
-  for (let i = 1; i < HEAT_STOPS.length; i++) {
-    const [t1, c1] = HEAT_STOPS[i];
-    if (t <= t1) {
-      const [t0, c0] = HEAT_STOPS[i - 1];
-      const pct = Math.round((1 - (t - t0) / (t1 - t0)) * 100);
-      return `color-mix(in oklab, var(${c0}) ${pct}%, var(${c1}))`;
-    }
-  }
-  return 'var(--slate)';
-}
-
 function el(tag, attrs = {}, ...children) {
   const node = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {
@@ -184,11 +168,10 @@ function rung(s, index, kind) {
   const mine = state.votes.get(s.id) || 0;
   const isTop = kind === 'top';
   const li = el('li', { class: `rung${isTop && index === 0 ? ' peak' : ''}`, 'data-id': s.id });
-  if (isTop) li.style.setProperty('--heat', heat(index / (TOP_N - 1)));
+  // Stencil hull marking, e.g. "TH-01 · PEAK HIGHNESS"
+  const serial = isTop ? `TH-${String(index + 1).padStart(2, '0')}${index === 0 ? ' · PEAK HIGHNESS' : ''}` : 'TH-INBOUND';
 
-  const stmt = el('p', { class: 'stmt' });
-  if (isTop && index === 0) stmt.append(el('span', { class: 'peak-tag' }, '★ Peak highness'));
-  stmt.append(el('span', { class: 'pre' }, 'Too high to '), s.body);
+  const stmt = el('p', { class: 'stmt' }, el('span', { class: 'pre' }, 'Too high to '), s.body);
 
   const label = `Too high to ${s.body}`;
   const vote = el('div', { class: 'vote' },
@@ -197,7 +180,8 @@ function rung(s, index, kind) {
     el('button', { type: 'button', class: 'down', 'data-vote': '-1', 'aria-pressed': String(mine === -1), 'aria-label': `Lower: ${label}`, title: 'Lower' }, '▼'),
   );
 
-  li.append(el('span', { class: 'rank', 'aria-label': isTop ? `Rank ${index + 1}` : 'New' }, isTop ? `#${index + 1}` : 'NEW'), stmt, vote);
+  li.append(el('span', { class: 'serial', 'aria-hidden': 'true' }, serial));
+  li.append(el('span', { class: 'rank','aria-label': isTop ? `Rank ${index + 1}` : 'New' }, isTop ? `#${index + 1}` : 'NEW'), stmt, vote);
   return li;
 }
 
