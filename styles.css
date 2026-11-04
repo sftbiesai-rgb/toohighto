@@ -114,7 +114,7 @@ body {
 
 .chart {
   display: grid;
-  grid-template-columns: 136px 1fr;
+  grid-template-columns: 118px 1fr;
   gap: 0 16px;
   min-height: 480px; /* keep the axis readable while loading or with few entries */
 }
@@ -169,14 +169,12 @@ body {
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--ink-soft);
-  width: 84px;
-  text-align: right;
-  line-height: 1.25;
+  white-space: nowrap;
 }
 .bands li::after {
   content: "";
   position: absolute;
-  top: calc(50% - .5px);
+  top: 50%;
   right: -12px;
   width: 8px;
   height: 1px;
