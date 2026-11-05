@@ -138,8 +138,14 @@ h2 { display: table; font-family: var(--display); font-weight: 400; font-size: 1
 
 @media (max-width: 600px) {
   .wrap { padding: 22px 14px 40px; }
-  .rung { grid-template-columns: auto 1fr; }
-  .rung .vote { grid-column: 1 / -1; justify-content: flex-end; }
+  .rungs { padding: 4px 12px; }
+  .rung { gap: 10px; padding: 10px 0; }
+  .stmt { font-size: 1.2rem; }
+  .peak .stmt { font-size: 1.35rem; }
+  /* Votes stack in a narrow column so they stay beside the statement. */
+  .vote { flex-direction: column; gap: 2px; }
+  .vote button { width: 26px; height: 26px; font-size: .5rem; }
+  .score { font-size: 1rem; line-height: 1.2; }
   .submit button { flex: 1 1 100%; }
 }
 
