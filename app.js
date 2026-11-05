@@ -2,6 +2,10 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
 const SUPABASE_JS = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
 const TOP_N = 10;
+// Page 1 is ranks 1–10 plus submit + New Arrivals; page 2 (?page=2) is ranks 11–100.
+const PAGE = new URLSearchParams(location.search).get('page') === '2' ? 2 : 1;
+const OFFSET = PAGE === 1 ? 0 : TOP_N;
+const LIMIT = PAGE === 1 ? TOP_N : 100 - TOP_N;
 const MIN_LEN = 3;
 const MAX_LEN = 80;
 const POLL_MS = 30000;
@@ -55,17 +59,21 @@ function normalize(text) {
     .replace(/^too high to\s*/i, '').trim();
 }
 
+// Ties go to the newer post.
 function rankSort(a, b) {
-  return b.score - a.score || new Date(a.created_at) - new Date(b.created_at);
+  return b.score - a.score || new Date(b.created_at) - new Date(a.created_at);
 }
 
 function newestFirst(a, b) {
   return new Date(b.created_at) - new Date(a.created_at);
 }
 
-function splitLists(top, recent) {
+// `ranked` holds this page's slice plus one extra row, which only signals a next page.
+function splitLists(ranked, recent) {
+  const top = ranked.slice(0, LIMIT);
   const topIds = new Set(top.map((s) => s.id));
-  return { top, fresh: recent.filter((s) => !topIds.has(s.id)).slice(0, TOP_N) };
+  const fresh = PAGE === 1 ? recent.filter((s) => !topIds.has(s.id)).slice(0, TOP_N) : [];
+  return { top, fresh, more: ranked.length > LIMIT };
 }
 
 async function supabaseBackend() {
@@ -76,7 +84,7 @@ async function supabaseBackend() {
     async list() {
       const [top, recent] = await Promise.all([
         db.from('statements').select(cols)
-          .order('score', { ascending: false }).order('created_at', { ascending: true }).limit(TOP_N),
+          .order('score', { ascending: false }).order('created_at', { ascending: false }).range(OFFSET, OFFSET + LIMIT),
         db.from('statements').select(cols)
           .order('created_at', { ascending: false }).limit(TOP_N * 2),
       ]);
@@ -130,7 +138,7 @@ function demoBackend() {
     demo: true,
     async list() {
       const all = state.statements.map(withScore);
-      return splitLists([...all].sort(rankSort).slice(0, TOP_N), [...all].sort(newestFirst));
+      return splitLists([...all].sort(rankSort).slice(OFFSET, OFFSET + LIMIT + 1), [...all].sort(newestFirst));
     },
     async myVotes() { return new Map(Object.entries(state.votes)); },
     async vote(id, value) {
@@ -167,7 +175,8 @@ function el(tag, attrs = {}, ...children) {
 function rung(s, index, kind) {
   const mine = state.votes.get(s.id) || 0;
   const isTop = kind === 'top';
-  const li = el('li', { class: `rung${isTop && index === 0 ? ' peak' : ''}`, 'data-id': s.id });
+  const rank = OFFSET + index + 1;
+  const li = el('li', { class: `rung${isTop && rank === 1 ? ' peak' : ''}`, 'data-id': s.id });
 
   const stmt = el('p', { class: 'stmt' }, el('span', { class: 'pre' }, 'Too high to '), s.body);
 
@@ -178,7 +187,7 @@ function rung(s, index, kind) {
     el('button', { type: 'button', class: 'down', 'data-vote': '-1', 'aria-pressed': String(mine === -1), 'aria-label': `Lower: ${label}`, title: 'Lower' }, '▼'),
   );
 
-  li.append(el('span', { class: 'rank','aria-label': isTop ? `Rank ${index + 1}` : 'New' }, isTop ? String(index + 1) : 'NEW'), stmt, vote);
+  li.append(el('span', { class: 'rank','aria-label': isTop ? `Rank ${rank}` : 'New' }, isTop ? String(rank) : 'NEW'), stmt, vote);
   return li;
 }
 
@@ -205,7 +214,12 @@ function render() {
   const fresh = $('#fresh');
   top.replaceChildren(...(state.top.length
     ? state.top.map((s, i) => rung(s, i, 'top'))
-    : [el('li', { class: 'empty' }, 'No reports yet. Be the first to file one below.')]));
+    : [el('li', { class: 'empty' }, PAGE === 1 ? 'No reports yet. Be the first to file one below.' : 'Nothing ranked down here yet.')]));
+  const pager = $('#pager');
+  pager.replaceChildren(PAGE === 1
+    ? (state.more ? el('a', { href: '?page=2' }, 'Ranks 11–100 →') : '')
+    : el('a', { href: './' }, '← Top 10'));
+  pager.hidden = !pager.childElementCount;
   fresh.replaceChildren(...(state.fresh.length
     ? state.fresh.map((s, i) => rung(s, i, 'fresh'))
     : [el('li', { class: 'empty' }, 'Nothing new on the launchpad. Submit one above.')]));
@@ -216,7 +230,7 @@ function render() {
 // State + actions
 // ---------------------------------------------------------------------------
 
-const state = { top: [], fresh: [], votes: new Map() };
+const state = { top: [], fresh: [], more: false, votes: new Map() };
 const pending = new Set();
 let backend;
 
@@ -231,8 +245,8 @@ async function refresh() {
 function applyLocalVote(id, delta) {
   const all = [...state.top, ...state.fresh].map((s) => (s.id === id ? { ...s, score: s.score + delta } : s));
   all.sort(rankSort);
-  const top = all.slice(0, TOP_N);
-  const fresh = all.slice(TOP_N).sort(newestFirst);
+  const top = all.slice(0, LIMIT);
+  const fresh = all.slice(LIMIT).sort(newestFirst);
   Object.assign(state, { top, fresh });
 }
 
@@ -301,6 +315,10 @@ function toast(msg) {
 // ---------------------------------------------------------------------------
 
 async function main() {
+  if (PAGE === 2) {
+    for (const n of document.querySelectorAll('.page1-only')) n.hidden = true;
+    document.title = `Ranks 11–100 · ${document.title}`;
+  }
   $('#top').addEventListener('click', onVote);
   $('#fresh').addEventListener('click', onVote);
   $('#submit-form').addEventListener('submit', onSubmit);

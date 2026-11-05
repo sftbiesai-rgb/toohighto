@@ -10,12 +10,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Exo+2:ital,wght@0,400..700;1,400..700&display=swap">
-  <link rel="stylesheet" href="styles.css?v=19">
-  <script type="module" src="app.js?v=19"></script>
+  <link rel="stylesheet" href="styles.css?v=20">
+  <script type="module" src="app.js?v=20"></script>
 </head>
 <body>
   <svg class="art" id="art" viewBox="0 0 1000 1400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
-  <script src="art.js?v=19"></script>
+  <script src="art.js?v=20"></script>
 
   <main class="wrap">
     <header class="title">
@@ -29,11 +29,13 @@
         <span class="axis-title">Highness</span>
         <div class="axis-line"></div>
       </div>
-      <ol class="rungs" id="top" aria-label="Top 10, highest first">
+      <ol class="rungs" id="top" aria-label="Ranked, highest first">
         <li class="loading">Receiving transmissions…</li>
       </ol>
     </section>
+    <nav class="pager" id="pager" aria-label="Pages" hidden></nav>
 
+    <div class="page1-only">
     <h2 id="submit-h">File your own report</h2>
     <form id="submit-form" class="submit" autocomplete="off" aria-labelledby="submit-h">
       <label for="entry">Too high to</label>
@@ -44,6 +46,7 @@
 
     <h2 id="fresh-h">New Arrivals</h2>
     <ol class="rungs fresh" id="fresh" aria-labelledby="fresh-h"></ol>
+    </div>
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>

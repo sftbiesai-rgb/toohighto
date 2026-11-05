@@ -98,6 +98,18 @@ h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(
 
 .loading, .empty { padding: 12px 0; font-style: italic; color: var(--muted); }
 
+/* Sits under the list's right edge, past the axis column. */
+.pager { display: flex; justify-content: flex-end; margin-top: 12px; }
+.pager[hidden], .page1-only[hidden] { display: none; }
+.pager a {
+  padding: 8px 16px;
+  background: var(--card); color: var(--accent);
+  border: 1px solid var(--edge); border-radius: var(--radius);
+  font-family: var(--display); text-transform: lowercase; text-decoration: none;
+}
+.pager a:hover { color: var(--ink); }
+.pager a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
 /* ---------- Submit + New Arrivals ---------- */
 
 h2 { display: table; font-family: var(--display); font-weight: 400; font-size: 1.4rem; margin: 32px 0 10px; padding: 4px 14px; }
