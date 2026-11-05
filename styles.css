@@ -1,13 +1,14 @@
-/* Pastel storybook: the illustration fills the page, the chart floats over it. */
+/* Mindscape: rays and a contour-filled head fill the page, the chart floats over it. */
 :root {
-  --card: rgba(251, 247, 238, .92);
-  --ink: #2A241C;
-  --muted: #7A6E5E;
-  --accent: #B9663C;
-  --on-accent: #FBF7EE;
-  --edge: #C9B48A;
-  --radius: 18px 4px 18px 4px;
-  --font: 'Fraunces', Georgia, serif;
+  --card: rgba(6, 32, 51, .88);
+  --ink: #EAF7EF;
+  --muted: #9CCFC0;
+  --accent: #7EE0C0;
+  --on-accent: #062433;
+  --edge: rgba(156, 207, 192, .35);
+  --radius: 6px;
+  --font: 'Exo 2', system-ui, sans-serif;
+  --display: 'Major Mono Display', 'Exo 2', monospace;
   color-scheme: light;
 }
 
@@ -17,10 +18,9 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: #EFE6D2;
+  background: #DDF3E6;
   color: var(--ink);
   font-family: var(--font);
-  font-variation-settings: 'SOFT' 100;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -34,9 +34,10 @@ body {
   border-radius: var(--radius);
 }
 
-.title { display: inline-block; padding: 12px 22px 14px; margin-bottom: 24px; }
-h1 { margin: 0; font-weight: 600; font-size: clamp(2.8rem, 11vw, 5.6rem); line-height: 1; }
-.sub { margin: 8px 0 0; font-style: italic; font-size: clamp(1.3rem, 4.5vw, 2rem); color: var(--muted); }
+.title { display: inline-block; padding: 16px 26px 18px; margin-bottom: 26px; }
+/* Major Mono's capitals use odd alternate forms; its lowercase set reads cleaner. */
+h1, h2, .axis-title { text-transform: lowercase; }
+h1 { margin: 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.6rem, 5.5vw, 2.8rem); line-height: 1.1; }
 
 .demo-note { margin: 0 0 18px; padding: 8px 14px; font-size: .85rem; color: var(--muted); }
 
@@ -44,38 +45,43 @@ h1 { margin: 0; font-weight: 600; font-size: clamp(2.8rem, 11vw, 5.6rem); line-h
 
 .chart { display: grid; grid-template-columns: auto 1fr; gap: 0 18px; min-height: 440px; }
 .axis { display: grid; grid-template-columns: auto auto; gap: 0 10px; }
-.axis-title { writing-mode: vertical-rl; transform: rotate(180deg); align-self: center; white-space: nowrap; font-size: 1.1rem; letter-spacing: .3em; padding: 10px 3px; }
-/* Widens toward the top and shifts from earth to sky blue. */
-.axis-line { position: relative; width: 26px; background: linear-gradient(to top, #7E9A4E, #9FBFD0 55%, #3F7FC0); clip-path: polygon(0 0, 100% 0, 62% 100%, 38% 100%); }
+.axis-title { font-family: var(--display); writing-mode: vertical-rl; transform: rotate(180deg); align-self: center; white-space: nowrap; font-size: 1.1rem; letter-spacing: .3em; padding: 10px 3px; }
+/* Widens toward the top and shifts from green to blue. */
+.axis-line { position: relative; width: 26px; background: linear-gradient(to top, #2E9E5A, #7EE0C0 50%, #2F7FD0); clip-path: polygon(0 0, 100% 0, 62% 100%, 38% 100%); }
 
-.rungs { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+/* One panel holds the whole list. */
+.rungs {
+  list-style: none; margin: 0; padding: 6px 18px;
+  display: flex; flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .7);
+}
+.rungs:empty { display: none; }
 
 .rung {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 14px;
-  padding: 8px 12px 8px 8px;
-  background: var(--card);
-  border: 1px solid var(--edge);
-  border-radius: var(--radius);
+  padding: 12px 0;
   font-size: 1.05rem;
-  box-shadow: 0 8px 20px -10px rgba(0, 0, 0, .55);
 }
 
 .rank {
-  width: 44px; height: 44px;
+  width: 30px; height: 30px;
   display: grid; place-items: center;
   border-radius: 50%;
   background: var(--accent);
   color: var(--on-accent);
-  font-style: italic; font-weight: 600; font-size: 1.15rem;
+  font-family: var(--display); font-size: .8rem;
 }
-.fresh .rank { background: var(--muted); font-size: .6rem; font-style: normal; letter-spacing: .08em; }
+.fresh .rank { width: auto; padding: 0 7px; border-radius: 15px; background: var(--muted); font-size: .55rem; font-style: normal; letter-spacing: .08em; }
 
-.stmt { margin: 0; line-height: 1.35; overflow-wrap: anywhere; }
-.stmt .pre { font-style: italic; color: var(--muted); }
-.peak .stmt { font-weight: 700; }
+.stmt { margin: 0; font-size: 1.45rem; line-height: 1.25; overflow-wrap: anywhere; }
+.stmt .pre { color: var(--muted); }
+.peak .stmt { font-size: 1.65rem; font-weight: 600; }
 
 .vote { display: flex; align-items: center; gap: 6px; }
 .vote button {
@@ -90,11 +96,11 @@ h1 { margin: 0; font-weight: 600; font-size: clamp(2.8rem, 11vw, 5.6rem); line-h
 .vote button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .score { min-width: 2.4ch; text-align: center; font-size: 1.15rem; }
 
-.loading, .empty { padding: 10px 14px; font-style: italic; color: var(--muted); background: var(--card); border-radius: var(--radius); }
+.loading, .empty { padding: 12px 0; font-style: italic; color: var(--muted); }
 
 /* ---------- Submit + New Arrivals ---------- */
 
-h2 { display: table; font-weight: 500; font-size: 1.4rem; margin: 32px 0 10px; padding: 4px 14px; }
+h2 { display: table; font-family: var(--display); font-weight: 400; font-size: 1.4rem; margin: 32px 0 10px; padding: 4px 14px; }
 
 .submit {
   display: flex; flex-wrap: wrap;
